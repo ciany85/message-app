@@ -1,0 +1,32 @@
+version: ‘3’
+services:
+  consul-server:
+    container_name: consul
+    image: consul:1.2.3
+    ports:
+      - "8500:8500"
+    network:
+      - message-network
+  message-uuid-generator:
+    container_name: message-uuid-generator
+    image: messuuid:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - message-network
+    depends_on:
+      - consul
+  message-processor:
+    container_name: message-processor
+    image: messproc:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - message-network
+    depends_on:
+      - consul
+      - message-uuid-generator
+networks:
+  message-network:
+    driver: bridge
+
