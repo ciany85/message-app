@@ -1,6 +1,6 @@
-package com.danilocugia.tantalum.messageprocessor.data;
+package com.danilocugia.messageprocessor.data;
 
-import com.danilocugia.tantalum.messageprocessor.models.Message;
+import com.danilocugia.messageprocessor.models.Message;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

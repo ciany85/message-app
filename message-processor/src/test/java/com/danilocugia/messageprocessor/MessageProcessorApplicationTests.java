@@ -1,4 +1,4 @@
-package com.danilocugia.tantalum.messageprocessor;
+package com.danilocugia.messageprocessor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

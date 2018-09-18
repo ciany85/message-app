@@ -1,7 +1,7 @@
-package com.danilocugia.tantalum.messageprocessor.controller;
+package com.danilocugia.messageprocessor.controller;
 
-import com.danilocugia.tantalum.messageprocessor.models.Message;
-import com.danilocugia.tantalum.messageprocessor.data.MessageRepository;
+import com.danilocugia.messageprocessor.models.Message;
+import com.danilocugia.messageprocessor.data.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.data.domain.PageRequest;

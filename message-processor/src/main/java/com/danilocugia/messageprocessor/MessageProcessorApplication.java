@@ -1,4 +1,4 @@
-package com.danilocugia.tantalum.messageprocessor;
+package com.danilocugia.messageprocessor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.danilocugia.tantalum.messageprocessor.models;
+package com.danilocugia.messageprocessor.models;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

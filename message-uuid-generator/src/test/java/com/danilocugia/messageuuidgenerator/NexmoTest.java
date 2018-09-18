@@ -1,5 +1,6 @@
 package com.danilocugia.messageuuidgenerator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,6 +36,7 @@ public class NexmoTest {
     }
 
     @Test
+    @Ignore
     public void testSiblings() {
         char[] chars = Integer.toString(100).toCharArray();
         List<Integer> permutes = permute(chars, 0);
