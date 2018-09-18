@@ -1,4 +1,4 @@
-package com.danilocugia.tantalum.messageuuidgenerator;
+package com.danilocugia.messageuuidgenerator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

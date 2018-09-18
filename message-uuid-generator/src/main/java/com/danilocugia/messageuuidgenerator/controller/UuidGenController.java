@@ -1,6 +1,6 @@
-package com.danilocugia.tantalum.messageuuidgenerator.controller;
+package com.danilocugia.messageuuidgenerator.controller;
 
-import com.danilocugia.tantalum.messageuuidgenerator.service.UuidGenService;
+import com.danilocugia.messageuuidgenerator.service.UuidGenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
