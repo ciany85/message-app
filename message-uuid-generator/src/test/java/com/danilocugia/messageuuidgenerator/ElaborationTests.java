@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-public class NexmoTest {
+public class ElaborationTests {
 
     @Test
     public void testMaxNumber() {
