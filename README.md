@@ -1,88 +1,96 @@
-#Checkout the code
+#Set up
+<h5>Checkout the code</h5>
 ```git clone https://github.com/ciany85/message-app.git```
 
-#Run Consul in a Docker container
-##First run
+<h5>Run Consul in a Docker container</h5>
+It's necessarily to have Consul up and running because the apps will try to connect to it unless specified in the command line with a Spring property
+<h5>First run</h5>
 ```docker run -p 8500:8500 --name=consul consul:1.2.3```
-##Run a existing container
-```docker start consul```
-
-#Compile the apps
+<h5>Start and stop an existing Consul container</h5>
+```
+docker start consul
+docker consul stop
+```
+<h5>Compile the apps</h5>
 ```mvn clean install```
-##Compile without activating Consul 
+<h5>Compile without Consul available</h5> 
 ```mvn clean install -Dspring.cloud.consul.enabled=false```
-##Run the apps executing the jar file
-```java -jar target/message-uuid-generator-0.0.1-SNAPSHOT.jar```
-
-```java -jar target/message-processor-0.0.1-SNAPSHOT.jar```
-##Run the app through Spring Boot
+<h5>Run the apps executing the jar file<h5>
+```
+java -jar target/message-uuid-generator-0.0.1-SNAPSHOT.jar
+java -jar target/message-processor-0.0.1-SNAPSHOT.jar
+```
+<h5>Run the app through Spring Boot</h5>
 ```mvn spring-boot:run```
 
 #Test the app
-##Consul Dashboard
+<h5>Consul Dashboard</h5>
 ```http://localhost:8500/ui/dc1/services```
-##GET all messages
+<h5>GET all messages</h5>
 ```curl -X GET http://localhost:8081/message-uuid```
-##GET last N messages
+<h5>GET last N messages</h5>
 ```curl -X GET 'http://localhost:8080/message?last=2'```
-##ADD messages
-```curl -X PUT 'http://localhost:8080/message?message=test1'```
-
-```curl -X PUT 'http://localhost:8080/message?message=test2'```
-
-```curl -X PUT 'http://localhost:8080/message?message=test3'```
-
-##UPDATE a message
+<h5>ADD messages</h5>
+```
+curl -X PUT 'http://localhost:8080/message?message=test1'
+curl -X PUT 'http://localhost:8080/message?message=test2'
+curl -X PUT 'http://localhost:8080/message?message=test3'
+```
+<h5>UPDATE a message</h5>
 ```curl -X POST 'http://localhost:8080/message?id=1&message=edited'```
-
-##DELETE a message
+<h5>DELETE a message</h5>
 ```curl -X DELETE 'http://localhost:8080/message?id=2'```
 
 #Docker
-## Run Consul
+<h5>Run Consul</h5>
+See instructions above. For the very first time you need to create a container, then you can just start and stop it, unless you delete it.
 ```
 docker -d run -p 8500:8500 --name=consul consul:1.2.3
 docker start consul
 docker stop consul   
 ```
-##Build Message UUID Generator image
-```cd message-uuid-generator```
-
-```docker build -t messuuid .```
-##Build Message Processor image
-```cd message-processor```
-
-```docker build -t messproc .```
-##Create and run app containers
-```docker run -p 8081:8081 --name=messuuid1 --link consul:consul messuuid```
-
-```docker run -p 8080:8080 --name=messproc --link messuuid:messuuid messproc```
-##See container logs
+<h5>Build Message-UUID-Generator app image</h5>
+```
+cd message-uuid-generator
+docker build -t messuuid .
+```
+<h5>Build Message-Processor app image</h5>
+```
+cd message-processor
+docker build -t messproc .
+```
+<h5>Create and run app containers</h5>
+We need to link the apps together in order to respect the dependencies between them
+```
+docker run -p 8081:8081 --name=messuuid1 --link consul:consul messuuid
+docker run -p 8080:8080 --name=messproc --link messuuid:messuuid messproc
+```
+<h5>See container logs</h5>
 ```docker logs -f message-processor```
 
 #Docker Compose
-##Init
+<h5>Init a Cluster</h5>
 ```docker swarm init```
-##Run the stack
+<h5>Run the stack</h5>
 ```docker stack deploy -c docker-compose.yml message-app```
-###Verify running services
+<h5>Verify running services</h5>
 ```docker service ls```
-##Verify App containers
+<h5>Verify App containers</h5>
 ```docker service ps message-app_message-processor```
-##Scale a service
+<h5>Scale a service</h5>
 ```docker service scale message-app_message-processor=3```
-##See service logs
+<h5>See service logs</h5>
 ```
 docker service logs message-app_message-processor -f
 docker service logs message-app_message-uuid-generator -f
 ```
-##Remove the stack
+<h5>Remove the stack</h5>
 ```docker stack rm message-app```
-##Remove the swarm
+<h5>Remove the swarm</h5>
 ```docker swarm leave --force```
-##Remove all the containers in a compose
+<h5>Remove all the containers in a compose</h5>
 ```docker-compose down```
-##Remove all the images
+<h5>Remove all the images</h5>
 ```docker rmi $(docker images -q)```
 
 
