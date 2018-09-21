@@ -1,5 +1,6 @@
-#Set up
+# Set up
 **Checkout the code**
+
 `git clone https://github.com/ciany85/message-app.git`
 
 **Run Consul in a Docker container**
@@ -36,7 +37,7 @@ java -jar target/message-processor-0.0.1-SNAPSHOT.jar
 
 `mvn spring-boot:run`
 
-#Test the app
+# Test the app
 **Consul Dashboard**
 
 `http://localhost:8500/ui/dc1/services`
@@ -64,7 +65,7 @@ curl -X PUT 'http://localhost:8080/message?message=test3'
 
 `curl -X DELETE 'http://localhost:8080/message?id=2'`
 
-#Docker
+# Docker
 **Run Consul**
 
 See instructions above. For the very first time you need to create a container, then you can just start and stop it, unless you delete it.
@@ -102,7 +103,7 @@ docker run -p 8080:8080 --name=messproc --link messuuid:messuuid messproc
 
 `docker logs -f message-processor`
 
-#Docker Compose
+# Docker Compose
 **Init a Cluster**
 
 `docker swarm init`
