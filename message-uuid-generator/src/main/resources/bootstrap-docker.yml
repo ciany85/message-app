@@ -1,8 +1,9 @@
 spring:
   cloud:
+    profiles: docker
     consul:
-      host: localhost
+      host: consul
       port: 8500
       discovery:
-        register: true
         prefer-ip-address: true
+        healthCheckInterval: 15s

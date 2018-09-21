@@ -1,6 +1,8 @@
 package com.danilocugia.messageuuidgenerator.controller;
 
 import com.danilocugia.messageuuidgenerator.service.UuidGenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient
 @RestController
 public class UuidGenController {
+    Logger logger = LoggerFactory.getLogger(UuidGenController.class);
 
     @Autowired
     UuidGenService uuidGen;
 
     @RequestMapping(value = "/message-uuid", method = RequestMethod.GET)
     public String get() {
-        return uuidGen.get();
+        String uuid = uuidGen.get();
+        logger.info("Generated a new UUID: " + uuid);
+        return uuid;
     }
 
 }

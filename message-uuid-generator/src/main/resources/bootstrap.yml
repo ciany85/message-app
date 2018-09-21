@@ -1,5 +1,10 @@
 spring:
   cloud:
+    profiles: docker
     consul:
       host: localhost
-      port: "8500"
+      port: 8500
+      discovery:
+        instance_id: ${spring.application.name}:${random.int}
+        prefer-ip-address: true
+        healthCheckInterval: 15s

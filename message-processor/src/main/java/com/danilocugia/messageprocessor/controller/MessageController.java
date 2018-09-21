@@ -2,6 +2,8 @@ package com.danilocugia.messageprocessor.controller;
 
 import com.danilocugia.messageprocessor.models.Message;
 import com.danilocugia.messageprocessor.data.MessageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RestController
 public class MessageController {
+    Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -32,6 +35,7 @@ public class MessageController {
 
     @RequestMapping(value = "/message", method = RequestMethod.GET)
     public List<Message> read(@RequestParam(value="last") Optional<Integer> last) {
+        logger.info("GET request for " + (last.isPresent()? last.get() : "all") + " messages");
         if (last.isPresent()) {
             return messageRepository.findAll(new PageRequest(0, last.get(), Sort.Direction.DESC, orderByProperty)).getContent();
         } else {
@@ -40,7 +44,8 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.PUT)
-    public Message add(@RequestParam(value="message") String messageString) throws RestClientException, ServiceUnavailableException{
+    public Message add(@RequestParam(value="message") String messageString) throws RestClientException {
+        logger.info("PUT request for message=" + messageString);
         String uuid;
         try {
             uuid = retrieveUuid();
@@ -51,31 +56,33 @@ public class MessageController {
         Message message = new Message();
         message.setMessage(messageString);
         message.setUuid(uuid);
-        return messageRepository.save(message);
+        Message savedMessage = messageRepository.save(message);
+        logger.info("Message saved with id " + savedMessage.getId());
+        return savedMessage;
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.POST)
     public Message edit(@RequestParam(value="id") Long id,
                         @RequestParam(value="message") String messageString) {
+        logger.info("POST request form message id " + id);
         Optional<Message> found = messageRepository.findById(id);
         if (found.isPresent()) {
             Message message = found.get();
-            if (createdTimeInMilliseconds(message) > MILLISECONDS.convert(10, SECONDS)) {
-                message.setMessage(messageString);
-                return messageRepository.save(message);
-            }
+            message.setMessage(messageString);
+            Message updatedMessage = messageRepository.save(message);
+            logger.info("Message updated with message=" + messageString);
+            return updatedMessage;
         }
         return null;
     }
 
     @RequestMapping(value = "/message", method = RequestMethod.DELETE)
     public void remove(@RequestParam(value="id") Long id) {
+        logger.info("DELETE request for message id " + id);
         Optional<Message> found = messageRepository.findById(id);
         if (found.isPresent()) {
             Message message = found.get();
-            if (createdTimeInMilliseconds(message) > MILLISECONDS.convert(2, MINUTES)) {
-                messageRepository.delete(message);
-            }
+            messageRepository.delete(message);
         }
     }
 
@@ -96,7 +103,4 @@ public class MessageController {
                 .findFirst();
     }
 
-    private long createdTimeInMilliseconds(Message message) {
-        return System.currentTimeMillis() - message.getCreatedAt().getTime();
-    }
 }
