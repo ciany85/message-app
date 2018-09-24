@@ -31,5 +31,6 @@ services:
       - message-uuid-generator
     links:
       - consul
+      - message-uuid-generator
 
 
