@@ -5,6 +5,6 @@ spring:
       host: consul
       port: 8500
       discovery:
-        instance_id: ${spring.application.name}:${random.int}
+        instance_id: ${spring.application.name}:${server.port}
+        healthCheckInterval: 15s
         register: true
-        prefer-ip-address: true

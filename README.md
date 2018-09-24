@@ -1,7 +1,7 @@
 # Set up
 **Checkout the code**
 
-`git clone https://github.com/ciany85/message-app.git`
+`git clone https://github.com/danilocugia/message-app.git`
 
 **Run Consul in a Docker container**
 
@@ -89,6 +89,10 @@ docker build -t messuuid .
 cd message-processor
 docker build -t messproc .
 ```
+
+**Build apps' images together through Docker Compose**
+
+`docker-compose build`
 
 **Create and run app containers**
 

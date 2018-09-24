@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
 @EnableAutoConfiguration
-@EnableDiscoveryClient
 @RestController
 public class UuidGenController {
     Logger logger = LoggerFactory.getLogger(UuidGenController.class);

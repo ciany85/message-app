@@ -4,5 +4,5 @@ spring:
       host: localhost
       port: 8500
       discovery:
-        register: true
         prefer-ip-address: true
+        register: true
